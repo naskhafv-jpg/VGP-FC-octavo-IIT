@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Práctica — Comunicación y Lenguaje · Décimo · 40 preguntas</title>
+<meta name="description" content="Simulacro interactivo de 40 preguntas para la II Prueba Sumativa de Comunicación y Lenguaje, Décimo año. Temas: El nadador, Siglo de Oro, Don Quijote.">
+<meta name="author" content="Décimo año — CIT">
+<meta property="og:title" content="Práctica CL · 40 ítems · Décimo">
+<meta property="og:description" content="Simulacro interactivo: El nadador · Siglo de Oro · Don Quijote de la Mancha">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1c3d1c">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f2;color:#1a1a1a}
+.topbar{background:#1c3d1c;padding:14px 20px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
+.topbar-title{color:#fff;font-size:15px;font-weight:500}
+.topbar-sub{color:#8ec98e;font-size:12px;margin-top:2px}
+.chip{background:#8ec98e;color:#1c3d1c;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:700}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px}
+.cover{background:#fff;border-radius:14px;border:1px solid #e0e0d8;padding:24px;margin-bottom:20px;text-align:center}
+.cover h2{font-size:21px;font-weight:600;color:#1c3d1c;margin-bottom:6px}
+.cover p{font-size:13px;color:#888;margin-bottom:18px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{background:#f8f8f5;border-radius:10px;padding:12px 8px;text-align:center;border:1px solid #e5e5dd}
+.stat-n{font-size:28px;font-weight:700;color:#1c3d1c}
+.stat-l{font-size:11px;color:#999;margin-top:2px}
+.bar-wrap{background:#f0f0ea;border-radius:10px;padding:12px 16px}
+.bar-lbl{font-size:12px;color:#888;margin-bottom:6px;display:flex;justify-content:space-between}
+.bar-track{height:8px;background:#ddd;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;background:#1c3d1c;border-radius:4px;transition:width .4s}
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:24px;font-size:13px;cursor:pointer;border:1px solid #ddd;background:#fff;color:#666;transition:all .15s;font-family:inherit}
+.tab.active{background:#1c3d1c;color:#fff;border-color:#1c3d1c}
+.tab:hover:not(.active){border-color:#1c3d1c;color:#1c3d1c}
+.section{display:none}
+.section.active{display:block}
+.sec-hd{margin-bottom:16px}
+.sec-hd h3{font-size:17px;font-weight:600;color:#1c3d1c;margin-bottom:4px}
+.sec-hd p{font-size:13px;color:#888}
+.q-card{background:#fff;border-radius:12px;border:1px solid #e5e5dd;padding:20px;margin-bottom:16px}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.q-num{font-size:12px;color:#aaa;font-weight:500}
+.q-tag{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.tag-nad{background:#FADBD8;color:#7B241C}
+.tag-sig{background:#D6EAF8;color:#154360}
+.tag-qui{background:#D5F5E3;color:#145A32}
+.frag{background:#f8f8f5;border-left:3px solid #1c3d1c;border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:14px;font-size:14px;line-height:1.9;color:#333;font-style:italic}
+.frag strong{font-style:normal;font-weight:700;color:#1c3d1c}
+.q-txt{font-size:15px;color:#1a1a1a;line-height:1.6;margin-bottom:14px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:8px;border:1px solid #e0e0d8;cursor:pointer;font-size:14px;color:#333;background:#fff;transition:all .12s;text-align:left;width:100%;font-family:inherit;line-height:1.6}
+.opt:hover:not(.disabled){background:#f0f7f0;border-color:#1c3d1c}
+.opt.correct{background:#D5F5E3;border-color:#1E8449;color:#145A32}
+.opt.wrong{background:#FADBD8;border-color:#C0392B;color:#7B241C}
+.opt.reveal{background:#D5F5E3;border-color:#1E8449;color:#145A32;opacity:.65}
+.opt.disabled{cursor:default;pointer-events:none}
+.opt-l{font-weight:700;min-width:22px}
+.fb{margin-top:12px;padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.7;display:none}
+.fb.show{display:block}
+.fb.ok{background:#D5F5E3;color:#145A32;border-left:3px solid #1E8449}
+.fb.fail{background:#FADBD8;color:#7B241C;border-left:3px solid #C0392B}
+.res-card{background:#fff;border-radius:14px;border:1px solid #e5e5dd;padding:32px;text-align:center;margin:16px 0}
+.res-score{font-size:72px;font-weight:700;color:#1c3d1c}
+.res-frac{font-size:18px;color:#888;margin-top:4px}
+.res-nota{font-size:22px;font-weight:600;margin-top:10px}
+.res-msg{font-size:14px;color:#666;margin-top:10px;line-height:1.6}
+.restart{margin-top:20px;padding:12px 28px;border-radius:8px;border:none;background:#1c3d1c;color:#fff;font-size:14px;cursor:pointer;font-family:inherit}
+.restart:hover{background:#2a5a2a}
+.breakdown{background:#fff;border-radius:12px;border:1px solid #e5e5dd;padding:20px;margin-top:16px}
+.breakdown h4{font-size:14px;font-weight:600;color:#1c3d1c;margin-bottom:12px}
+.brow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0ea;font-size:13px}
+.brow:last-child{border-bottom:none}
+.dots{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px}
+.dot{width:22px;height:22px;border-radius:50%;border:1.5px solid #ddd;font-size:10px;display:flex;align-items:center;justify-content:center;color:#aaa;font-weight:600;cursor:pointer;transition:.12s}
+.dot.ok{background:#D5F5E3;border-color:#1E8449;color:#145A32}
+.dot.fail{background:#FADBD8;border-color:#C0392B;color:#7B241C}
+@media(max-width:500px){.stats-row{grid-template-columns:repeat(2,1fr)}.res-score{font-size:56px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="topbar-title">Práctica — Comunicación y Lenguaje · 40 ítems</div>
+    <div class="topbar-sub">Prof. Naskha Fonseca · Décimo · II Sumativa 2026</div>
+  </div>
+  <div class="chip" id="chip">0 / 40</div>
+</div>
+
+<div class="wrap">
+<div class="cover">
+  <h2>Simulacro Ampliado — 40 preguntas</h2>
+  <p>Preguntas originales basadas en la Antología · Comprensión lectora · Tópicos · Análisis literario<br>Marca y ve al instante si acertaste · Las preguntas NO son del examen real</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n" id="s-ok">0</div><div class="stat-l">Correctas</div></div>
+    <div class="stat"><div class="stat-n" id="s-fail">0</div><div class="stat-l">Incorrectas</div></div>
+    <div class="stat"><div class="stat-n" id="s-ans">0</div><div class="stat-l">Respondidas</div></div>
+    <div class="stat"><div class="stat-n" id="s-pct">—</div><div class="stat-l">Puntaje</div></div>
+  </div>
+  <div class="bar-wrap">
+    <div class="bar-lbl"><span>Progreso</span><span id="bar-txt">0 de 40 preguntas</span></div>
+    <div class="bar-track"><div class="bar-fill" id="bar-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="show('t1',this)">El nadador (1–16)</div>
+  <div class="tab" onclick="show('t2',this)">Siglo de Oro (17–28)</div>
+  <div class="tab" onclick="show('t3',this)">Don Quijote (29–40)</div>
+  <div class="tab" onclick="show('res',this)">Resultados</div>
+</div>
+
+<div id="t1" class="section active">
+  <div class="sec-hd"><h3>El nadador — John Cheever</h3><p>Comprensión lectora, simbolismo y análisis de personajes. Lee cada fragmento con cuidado.</p></div>
+  <div class="dots" id="d1"></div><div id="q1"></div>
+</div>
+<div id="t2" class="section">
+  <div class="sec-hd"><h3>Poesía del Siglo de Oro</h3><p>Tópicos renacentistas y barrocos, tipos de amor, poetas y características de época.</p></div>
+  <div class="dots" id="d2"></div><div id="q2"></div>
+</div>
+<div id="t3" class="section">
+  <div class="sec-hd"><h3>Don Quijote de la Mancha — Miguel de Cervantes</h3><p>Personajes, parodia, metaficción, idealismo vs. realidad y temas centrales.</p></div>
+  <div class="dots" id="d3"></div><div id="q3"></div>
+</div>
+<div id="res" class="section">
+  <div class="res-card">
+    <div class="res-score" id="rs">—</div>
+    <div class="res-frac" id="rf">sobre 40 preguntas</div>
+    <div class="res-nota" id="rn"></div>
+    <div class="res-msg" id="rm">Completa las secciones para ver tu resultado.</div>
+    <button class="restart" onclick="if(confirm('¿Reiniciar práctica?'))location.reload()">Reiniciar</button>
+  </div>
+  <div class="breakdown">
+    <h4>Resultado por tema</h4>
+    <div class="brow"><span>El nadador (1–16)</span><span id="br1" style="font-weight:600">—</span></div>
+    <div class="brow"><span>Siglo de Oro (17–28)</span><span id="br2" style="font-weight:600">—</span></div>
+    <div class="brow"><span>Don Quijote (29–40)</span><span id="br3" style="font-weight:600">—</span></div>
+  </div>
+</div>
+</div>
+
+<script>
+const QS=[
+// ══════════════════════ TEMA 1: EL NADADOR (1-16) ══════════════════════
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"No ha mucho tiempo que vivía un hidalgo de los de lanza en astillero…" —dice Cervantes al inicio del Quijote, pero en El nadador, Neddy Merrill "sentado en el borde de la piscina, tenía una mano dentro del agua" en una fiesta de domingo. <strong>Se consideraba a sí mismo una figura legendaria.</strong> Le pareció ver, con mentalidad de cartógrafo, la línea de piscinas y decidió bautizarla <strong>"río Lucinda"</strong>, en honor a su esposa.`,
+q:"¿Por qué Neddy decide llamar 'río Lucinda' al recorrido de piscinas?",
+opts:["Porque su esposa le pidió que le pusiera su nombre como regalo de cumpleaños.","Porque nombrar el recorrido con el nombre de su esposa le da a su proyecto una dimensión épica y personal que refuerza su autoilusión de grandeza.","Porque Lucinda era la dueña de todas las piscinas del condado."],
+c:1,exp:"El nombre 'río Lucinda' es parte del autoengaño de Neddy: transforma un recorrido doméstico en una gesta heroica. Nombrar el río le da una falsa dignidad de explorador, que es una de las ilusiones centrales del personaje."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Iba a haber una tormenta. La masa de nubes —aquella ciudad— se había elevado y oscurecido, mientras descansaba allí un momento, oyó otra vez el retumbar de un trueno. La fuerza del viento había arrancado las hojas secas y amarillas de un arce y las había esparcido sobre la hierba y el agua. <strong>Como estaban aún a mitad de verano, Ned supuso que el árbol se hallaba enfermo, pero sintió una extraña tristeza ante ese signo del otoño.</strong>"`,
+q:"¿Qué función narrativa cumple la presencia de hojas otoñales en pleno verano?",
+opts:["Demostrar que el condado sufría un fenómeno climático inusual ese año.","Introducir un dato botánico irrelevante que solo describe el paisaje sin significado simbólico.","Anticipar simbólicamente el otoño de la vida de Neddy y el colapso que él aún no quiere reconocer."],
+c:2,exp:"Las hojas amarillas en verano son un símbolo: algo está fuera de lugar, algo muere antes de tiempo. Neddy lo percibe con tristeza pero no lo entiende. Es una de las señales que el narrador da al lector sobre el deterioro real de la vida de Neddy."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Ned no quería que lo vieran en la carretera en traje de baño. Los ocupantes de los automóviles se reían de él, lo tomaban a broma, y llegaron incluso a tirarle una lata de cerveza, <strong>y él no tenía ni dignidad ni humor que aportar a aquella situación.</strong>"`,
+q:"¿Qué revela esta situación sobre el estado interno de Neddy?",
+opts:["Que Neddy es una persona tímida que siempre fue insegura en público.","Que la pérdida de su capacidad para manejar la burla social refleja el derrumbe de la imagen que tenía de sí mismo.","Que Neddy fue siempre mal visto por sus vecinos desde el comienzo de la historia."],
+c:1,exp:"Al inicio del cuento, Neddy se considera 'una figura legendaria'. Que ya no tenga 'dignidad ni humor' para la burla muestra que esa imagen se ha roto. La pérdida del autocontrol social es un síntoma del colapso interior."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Ned recordó con nostalgia las aguas color zafiro de los Bunker y pensó que podía <strong>contaminarse —echar a perder su prosperidad y disminuir su atractivo personal—</strong> nadando en aquella ciénaga [la piscina pública], pero recordó que era un <strong>explorador, un peregrino</strong>."`,
+q:"La actitud de Neddy ante la piscina pública revela principalmente que",
+opts:["él rechaza usar instalaciones públicas por higiene, basado en evidencia médica real.","su sentido de superioridad de clase lo lleva a construir narrativas heroicas para tolerar entornos que percibe como inferiores.","él ya había superado sus prejuicios de clase y nada con genuina humildad en la piscina pública."],
+c:1,exp:"Neddy no puede simplemente nadar en la piscina pública: necesita redefinirse como 'explorador' para proteger su ego. La palabra 'contaminarse' es clave: revela que asocia la clase social con una especie de pureza física. Es autoilusión al servicio del clasismo."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Los Biswanger los invitaban a cenar cuatro veces al año con seis semanas de anticipación. Ellos nunca aceptaban, pero los Biswanger continuaban enviando invitaciones como si fueran incapaces de comprender <strong>las rígidas y antidemocráticas normas de la sociedad en la que vivían</strong>. No pertenecían al grupo de amistades de Neddy; ni siquiera figuraban en la lista de personas a las que Lucinda enviaba felicitaciones de Navidad."`,
+q:"La descripción del narrador sobre los Biswanger permite inferir que el cuento",
+opts:["idealiza las jerarquías sociales de la clase alta suburbana como un modelo de vida deseable.","critica las rígidas jerarquías sociales de la clase alta al mostrar cuán crueles e irracionales son sus normas de exclusión.","presenta a los Biswanger como los verdaderos antagonistas del cuento por ser socialmente ambiciosos."],
+c:1,exp:"El fragmento es una crítica implícita a las 'rígidas y antidemocráticas normas' de esa clase social. Cheever las llama así deliberadamente. Neddy excluye a los Biswanger de su jerarquía, pero más adelante esa misma jerarquía lo excluirá a él. El cuento desmonta esa hipocresía."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Se preguntó si los Lindley habrían vendido sus caballos o si se habrían ausentado durante el verano. Le pareció recordar que <strong>había oído algo acerca de los Lindley y de sus caballos, pero no sabía exactamente qué</strong>. Siguió adelante, notando la hierba húmeda contra los pies descalzos."`,
+q:"La incertidumbre de Neddy sobre los Lindley es un ejemplo de",
+opts:["distracción momentánea causada por el cansancio físico del recorrido.","el mecanismo de autoengaño mediante el cual Neddy bloquea sistemáticamente los recuerdos desagradables sobre la realidad que lo rodea.","su falta de interés general en los asuntos de sus vecinos durante todo el cuento."],
+c:1,exp:"Este patrón se repite varias veces en el cuento: Neddy sabe que hay algo, pero no recuerda qué. Es el mecanismo central del autoengaño: su mente borra lo desagradable. La piscina vacía y la hierba crecida son señales de deterioro que él no puede integrar en su narrativa optimista."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"—Me encantaría hacerlo —dijo Helen—, pero <strong>no tenemos nada para beber desde la operación de Eric. Y de eso hace ya tres años.</strong><br>¿Estaba perdiendo la memoria, o era acaso que su capacidad para ignorar acontecimientos penosos le había permitido olvidarse de la venta de su casa, de las dificultades de sus hijas, y de la enfermedad de su amigo Eric?"`,
+q:"La pregunta que se hace Neddy en este fragmento cumple la función de",
+opts:["invitar al lector a simpatizar con la pérdida de memoria de Neddy como un problema médico ajeno a su voluntad.","hacer visible el conflicto central del cuento: la tensión entre la memoria real y la realidad distorsionada que Neddy ha construido para sí mismo.","mostrar que Neddy es un personaje responsable que reflexiona honestamente sobre sus errores."],
+c:1,exp:"La pregunta es el momento de mayor lucidez de Neddy en todo el cuento, y sin embargo no actúa en consecuencia. Funciona como espejo: el lector ya sabe la verdad, y aquí Neddy casi la ve también. Es el instante en que el autoengaño se vuelve consciente, pero aun así persiste."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Ned se echó a llorar. Era probablemente la primera vez que lloraba en toda su vida de adulto, y desde luego la primera vez en su vida que se sentía tan desdichado, <strong>con tanto frío, tan cansado y tan desconcertado.</strong>"`,
+q:"¿Por qué es significativo que sea la primera vez que Neddy llora como adulto?",
+opts:["Porque indica que Neddy es un hombre muy emocionalmente reprimido que nunca mostró sentimientos.","Porque el llanto marca el momento en que la ilusión colapsa completamente: el hombre que se creía fuerte, joven y exitoso toca fondo.","Porque el frío físico del agua provoca una reacción fisiológica que se confunde con una emoción."],
+c:1,exp:"El llanto no es solo tristeza: es el símbolo del quiebre total. Todo el cuento ha construido a un Neddy que se niega a sentir y a ver. Llorar por primera vez en la adultez es la señal de que esa armadura se destruyó. El hombre que 'podría compararse con un día de verano' termina en el frío del otoño emocional."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Ned sintió un momentáneo afecto por aquella escena, una ternura que era casi como una sensación física, motivada por algo tangible. Oyó un trueno a lo lejos."<br><br>"La fiesta era ruidosa y había mucha gente. No había nadie nadando en la piscina, y <strong>el crepúsculo, al reflejarse en el agua, despedía un brillo invernal.</strong>"`,
+q:"¿Cuál es el efecto del contraste entre las dos descripciones de fiestas en el cuento?",
+opts:["Mostrar que todas las fiestas son iguales y que el ambiente social no cambia a lo largo del cuento.","Evidenciar el deterioro progresivo del mundo de Neddy: la primera fiesta es cálida e ilusoria; la segunda ya lleva señales de invierno y exclusión.","Demostrar que el tiempo atmosférico determina la calidad de las reuniones sociales."],
+c:1,exp:"La primera fiesta (Bunker) es espléndida: piscinas color zafiro, ginebra fría, luz veraniega. La segunda (Biswanger) ya tiene 'brillo invernal'. El contraste es deliberado: mientras Neddy avanza en el recorrido, el mundo se enfría, tanto climática como socialmente. El invierno es metáfora."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Grace Biswanger pertenecía al tipo de anfitriona que invitaba al óptico, al veterinario, al corredor de fincas y al dentista."`,
+q:"Esta descripción de Grace Biswanger es irónica porque",
+opts:["revela que los Biswanger son más inclusivos socialmente que Neddy, quien los excluía de sus propias listas.","demuestra que los Biswanger son la familia más poderosa del condado.","prueba que Grace organizaba fiestas exclusivamente para profesionales de la salud."],
+c:0,exp:"El narrador señala que Grace invita a personas 'de segundo nivel' según la jerarquía de Neddy (óptico, veterinario…). Sin embargo, es esta familia 'inferior' la que excluye a Neddy. La ironía es brutal: Neddy los despreciaba, pero ahora es él quien mendiga una copa en su fiesta."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Al acercarse más a la casa vio que la violencia de la tormenta había separado de la pared una de las tuberías de desagüe para la lluvia. Ahora colgaba por encima de la entrada principal como <strong>una varilla de paraguas</strong>, pero no costaría arreglarla por la mañana."`,
+q:"La reacción de Neddy ante la tubería rota ('no costaría arreglarla por la mañana') es reveladora porque",
+opts:["muestra que Neddy es un hombre práctico y optimista que siempre ve soluciones.","demuestra que la tubería es el único daño que sufrió la casa durante la tormenta.","evidencia que incluso al final, Neddy sigue minimizando la realidad y funcionando en la ilusión de que todo tiene arreglo."],
+c:2,exp:"La casa está vacía, su familia se ha ido, lo ha perdido todo. Y aun así, Neddy nota la tubería rota y piensa 'no costaría arreglarla'. Es el autoengaño funcionando hasta el último segundo: el personaje no puede enfrentarse al colapso total y se aferra a un detalle menor."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"[Shirley Adams] —¿Qué quieres?<br>—Estoy nadando a través del condado.<br>—¡Santo cielo! ¿<strong>Te comportarás alguna vez como una persona adulta?</strong><br>—Si has venido buscando dinero —dijo ella—, no voy a darte ni un centavo."`,
+q:"La frase '¿Te comportarás alguna vez como una persona adulta?' tiene una dimensión irónica en el contexto del cuento porque",
+opts:["Shirley siempre fue una persona muy exigente con los modales de los demás.","el cuento completo puede leerse como la historia de un hombre que nunca maduró emocionalmente y cuyo proyecto de nadar a través del condado es una negación infantil de la realidad.","Neddy le debe dinero a Shirley desde hace años y ella quiere que lo devuelva."],
+c:1,exp:"La pregunta de Shirley funciona como un diagnóstico del personaje: Neddy es un hombre que nunca enfrentó la realidad adulta. Su proyecto de 'nadar el río Lucinda' es literalmente un juego de niño disfrazado de gesta heroica. La pregunta de Shirley resume el tema central del cuento."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"[Al salir de la piscina de los Halloran] Al otro lado del seto, Ned se puso el bañador y tuvo que apretárselo. Le estaba un poco grande, y se preguntó si era posible que <strong>hubiera perdido peso en una tarde.</strong>"`,
+q:"¿Cuál es la interpretación más acertada del bañador que le queda grande?",
+opts:["Neddy adelgazó rápidamente por el intenso ejercicio físico del recorrido.","El bañador que le queda grande es un símbolo visual del deterioro de Neddy: su cuerpo ya no llena el espacio que antes ocupaba, igual que su vida ya no llena la posición social que antes tenía.","Es un error de Ned que tomó el bañador equivocado en casa de los Halloran."],
+c:1,exp:"Un bañador que le queda grande en una tarde es físicamente imposible. Es una señal de la distorsión temporal del cuento: el tiempo que pasa no es solo una tarde. Simbólicamente, Neddy se ha 'encogido'. Su cuerpo refleja el vaciamiento de su vida."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Trepó por la escalerilla y se preguntó si le quedaban fuerzas para llegar a casa. Había cumplido su deseo, había nadado a través del condado, pero <strong>estaba tan embotado por la fatiga que su triunfo carecía de sentido.</strong>"`,
+q:"La frase 'su triunfo carecía de sentido' condensa el tema central del cuento porque",
+opts:["el esfuerzo físico fue tan grande que Neddy no pudo disfrutar el logro deportivo.","muestra que los logros vacíos, construidos sobre ilusiones, no producen satisfacción real: Neddy llega, pero no tiene nada que celebrar.","el condado era demasiado largo para recorrerlo en un solo día."],
+c:1,exp:"Esta frase es la síntesis del cuento: la travesía era una ilusión de grandeza, y al llegar al destino no hay ni familia, ni hogar, ni identidad. El 'triunfo' era un autoengaño. Cheever construye toda la historia para llegar a este momento vacío."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Una olla de algo más vaca que carnero, salpicón las más noches… consumían las tres partes de su hacienda." — Este es el inicio del Quijote. En El nadador, en cambio, leemos: "Había estado nadando y ahora respiraba hondo, como si fuera capaz de <strong>almacenar en sus pulmones los ingredientes de aquel momento</strong>."`,
+q:"¿Qué diferencia fundamental existe entre la situación de Alonso Quijano al inicio del Quijote y la de Neddy Merrill al inicio de El nadador?",
+opts:["Alonso Quijano es un hombre pobre que vive con escasez, mientras Neddy aparenta pertenecer a una clase social acomodada y exitosa.","Ambos personajes tienen exactamente la misma situación económica al inicio de sus respectivas obras.","Neddy es claramente más inteligente que Alonso Quijano desde el principio."],
+c:0,exp:"El contraste es deliberado: Alonso Quijano vive con recursos limitados desde el inicio; Neddy parece pertenecer al mundo acomodado de las piscinas privadas y las fiestas de domingo. Sin embargo, ambos construyen ilusiones para escapar de su realidad. Cheever hace con el sueño americano lo que Cervantes con la caballería."
+},
+{t:1,tag:"tag-nad",tl:"El nadador",
+frag:`"Se le ocurrió que si atajaba por el suroeste podría llegar nadando hasta allí [a su casa]. No había nada de opresivo en la vida de Neddy, y el placer que le produjo aquella idea no puede explicarse reduciéndola a una simple posibilidad de evasión. Le pareció ver, con mentalidad de cartógrafo, la línea de piscinas."`,
+q:"El narrador afirma que 'no había nada de opresivo en la vida de Neddy'. Esta afirmación, vista desde el final del cuento, es",
+opts:["completamente verdadera: Neddy era genuinamente feliz y libre al inicio.","completamente falsa y es la base del autoengaño: hay mucho que es opresivo en su vida, pero él lo ha bloqueado de su conciencia.","parcialmente cierta porque Neddy solo tiene problemas económicos, no emocionales."],
+c:1,exp:"Esta frase al inicio del cuento es irónica desde la perspectiva del final. Hay mucho de opresivo: su familia se ha ido, ha vendido la casa, está en quiebra. Pero Neddy lo ha borrado de su memoria. El narrador nos dice lo que Neddy cree, no la verdad. Es la clave para entender toda la estructura del relato."
+},
+
+// ══════════════════════ TEMA 2: SIGLO DE ORO (17-28) ══════════════════════
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"En tanto que de rosa y azucena / se muestra la color en vuestro gesto / […] / <strong>coged de vuestra alegre primavera / el dulce fruto, antes que el tiempo airado / cubra de nieve la hermosa cumbre.</strong>"<br>— Garcilaso de la Vega`,
+q:"En el soneto de Garcilaso, 'la hermosa cumbre cubierta de nieve' es una metáfora de",
+opts:["una montaña nevada que el poeta observa desde la ventana mientras escribe.","la vejez que inevitablemente llegará y borrará la belleza juvenil de la amada.","la frialdad emocional de la mujer amada que rechaza al poeta."],
+c:1,exp:"'La hermosa cumbre' es la cabeza (con cabello) de la amada; 'cubrirse de nieve' es la metáfora del envejecimiento. Es un recurso típico del carpe diem: la belleza es fugaz y el tiempo la destruirá. El poeta urge a disfrutar el presente antes de que llegue la vejez."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"Yo no nací sino para quereros; / mi alma os ha cortado a su medida; / por hábito del alma mismo os quiero. / Cuanto tengo confieso yo deberos; / <strong>por vos nací, por vos tengo la vida, / por vos he de morir, y por vos muero.</strong>"<br>— Garcilaso de la Vega, "Escrito está en mi alma vuestro gesto"`,
+q:"Los versos anteriores representan el tipo de amor",
+opts:["platónico, porque el poeta ama el alma de la amada sin interés físico.","beatus ille, porque el poeta encuentra paz en el amor tranquilo de la vida rural.","cortés, porque el poeta idolatra a la amada y la convierte en la razón de su existencia."],
+c:2,exp:"El amor cortés es aquel en que el amante sirve a la dama como a una señora feudal y hace de ella la razón de su vida. 'Por vos nací, por vos tengo la vida, por vos he de morir' es la expresión máxima de esa idolatría. El amor platónico sería más espiritual y abstracto; el carpe diem urge a disfrutar, no a idolatrar."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"<strong>¡Oh dulces prendas por mi mal halladas, / dulces y alegres cuando Dios quería</strong>, / juntas estáis en la memoria mía / y con ella en mi muerte conjuradas!"<br>— Garcilaso de la Vega`,
+q:"En este soneto de Garcilaso, 'prendas' significa",
+opts:["dinero o joyas que el poeta guarda con celo.","recuerdos o regalos de la persona amada que ahora causan dolor al evocarla.","los poemas que el poeta mismo ha escrito en honor a su amada."],
+c:1,exp:"'Prendas' en la poesía del Siglo de Oro son objetos o recuerdos que pertenecieron al ser amado. La nota al pie de la antología lo confirma: 'regalo, recuerdo del ser amado'. El poeta las llama 'por mi mal halladas' porque encontrarlas le causa dolor al recordar a quien ya no está."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"Procuré no rendirme al mal que siento, / y fue todo mi esfuerzo desvarío; / <strong>perdí mi libertad, perdí mi brío, / cobré un perpetuo mal, cobré un tormento.</strong>"<br>— Fernando de Herrera`,
+q:"El soneto de Herrera desarrolla principalmente el tópico del",
+opts:["locus amoenus, porque describe un lugar de tranquilidad donde el poeta es libre.","amor como dulce tormento de origen petrarquista, donde amar es perder la libertad y ganar sufrimiento.","beatus ille, porque el poeta prefiere la vida sencilla alejada del amor cortesano."],
+c:1,exp:"El amor petrarquista es el 'dulce tormento': el poeta intenta resistir el amor pero fracasa, pierde su libertad y gana sufrimiento. 'Cobré un perpetuo mal, cobré un tormento' es la esencia del petrarquismo: el amor no es solo placer, es una herida permanente."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"Es hielo abrasador, es fuego helado, / es herida que duele y no se siente, / es un soñado bien, un mal presente, / es un breve descanso muy cansado."<br>— Francisco de Quevedo, "Definiendo el amor"`,
+q:"La técnica retórica predominante en el poema de Quevedo es",
+opts:["la anáfora, porque repite la misma palabra al inicio de cada verso para crear ritmo.","la hipérbole, porque exagera las cualidades físicas de la amada.","el oxímoron o paradoja, porque une términos contrarios ('hielo abrasador', 'fuego helado') para definir el amor como una contradicción."],
+c:2,exp:"El oxímoron une términos contradictorios en una sola expresión: 'hielo abrasador', 'fuego helado', 'herida que duele y no se siente'. Esta es la técnica barroca por excelencia para definir el amor: una experiencia que desafía la lógica y contiene opuestos simultáneos."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"Ayer se fue; mañana no ha llegado; / hoy se está yendo sin parar un punto: / soy un fue, y un será, y un es cansado."<br>— Francisco de Quevedo, "¡Ah de la vida!"`,
+q:"Los versos anteriores desarrollan el tópico de",
+opts:["carpe diem, porque el poeta urge a disfrutar el presente antes de que llegue la vejez.","locus amoenus, porque el poeta encuentra en la naturaleza un refugio contra el paso del tiempo.","tempus fugit, porque el poeta reflexiona sobre cómo el tiempo se escapa sin que podamos detenerlo."],
+c:2,exp:"Tempus fugit ('el tiempo huye') es exactamente lo que expresan estos versos: el ayer se fue, el mañana no llegó, el hoy se va. La frase 'soy un fue, y un será, y un es cansado' condensa la angustia barroca por el tiempo que destruye todo. Es diferente al carpe diem, que da una respuesta positiva (disfrutar); el tempus fugit solo constata la pérdida."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"Desmayarse, atreverse, estar furioso, / áspero, tierno, liberal, esquivo, / alentado, mortal, difunto, vivo, / leal, traidor, cobarde y animoso"<br>— Lope de Vega, "Desmayarse, atreverse, estar furioso"`,
+q:"La estructura de este soneto de Lope de Vega, basada en una lista de contrarios, sirve para",
+opts:["mostrar que el amor es una experiencia racional y ordenada que el poeta puede controlar.","demostrar que el amor es una experiencia que contiene contradicciones simultáneas e irresolubles, siguiendo el modelo petrarquista.","describir las características físicas del personaje amado usando comparaciones."],
+c:1,exp:"El soneto de Lope es una enumeración de estados opuestos que el amor produce al mismo tiempo: 'traidor' y 'leal', 'cobarde' y 'animoso'. Esto es el petrarquismo: el amor como paradoja vivida. La estructura de la lista sin verbo refuerza la sensación de simultaneidad caótica."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"Nace en las Indias honrado, / donde el mundo le acompaña; / viene a morir en España, / y es en Génova enterrado."<br>— Francisco de Quevedo, "Madre, yo al oro me humillo"`,
+q:"Los versos anteriores de Quevedo son representativos del Barroco porque",
+opts:["exaltan la riqueza y el poder económico como valores positivos propios del Renacimiento español.","presentan una crítica satírica e irónica al poder del dinero y a la economía política de la España imperial.","describen un viaje heroico del oro desde América hasta Europa con tono épico y admirativo."],
+c:1,exp:"El tono es irónico, no admirativo. Quevedo critica que el oro americano nace en España pero 'muere' (se gasta) en Génova (banqueros italianos). Es una sátira sobre la economía española: el dinero se escapa. El Barroco se caracteriza por esta crítica social mediante la ironía y el desengaño."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`Renacimiento: <strong>estética equilibrada y armónica, antropocentrista, curiosidad científica, exaltación de la naturaleza</strong>.<br>Barroco: <strong>pérdida de confianza en los ideales renacentistas, desengaño de la sociedad, visión grotesca y explícita, combinación de polos opuestos</strong>.`,
+q:"¿Cuál de los siguientes poemas pertenece claramente al Renacimiento y no al Barroco?",
+opts:["'En tierra, en humo, en polvo, en sombra, en nada' (Góngora) — porque termina con la destrucción de la belleza.","'En tanto que de rosa y azucena' (Garcilaso) — porque celebra la belleza y urge a disfrutarla con optimismo armónico.","'¡Ah de la vida!' (Quevedo) — porque reflexiona angustiadamente sobre el tiempo que huye."],
+c:1,exp:"El soneto de Garcilaso tiene estética equilibrada, celebra la belleza natural y urge a disfrutar la vida: características renacentistas. El soneto de Góngora lleva el carpe diem al extremo oscuro barroco ('en nada'). El de Quevedo es plenamente barroco por su angustia existencial. Garcilaso es el representante por excelencia del Renacimiento español."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"<strong>Antropocentrista: el hombre es el centro del mundo.</strong> Secularización del arte. Curiosidad científica. Exaltación de la naturaleza. Estética equilibrada y armónica. Surge un nuevo modelo de caballero: guerrero y poeta a la vez."`,
+q:"¿Cuál de los siguientes autores NO es representativo del Renacimiento según los contenidos de la antología?",
+opts:["Garcilaso de la Vega.","Fernando de Herrera.","Luis de Góngora."],
+c:2,exp:"Según los apuntes de la antología (pág. 114-115), los poetas renacentistas son: Garcilaso de la Vega, Fernando de Herrera, Fray Luis de León, San Juan de la Cruz y Santa Teresa de Jesús. Luis de Góngora es representante del Barroco, no del Renacimiento."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`Tipos de amor en la poesía del Siglo de Oro:<br>• <strong>Petrarquista</strong>: el amor como un dulce tormento.<br>• <strong>Cortés</strong>: el acto de idolatrar a la amada, ella es la que brinda razón de vivir.<br>• <strong>Platónico</strong>: un amor metafísico y espiritual, amor al alma y la esencia.`,
+q:"'Es una libertad encarcelada, / que dura hasta el postrero paroxismo; / enfermedad que crece si es curada.' (Quevedo) ¿Qué tipo de amor describe?",
+opts:["Amor platónico, porque el poeta ama el alma de la amada sin componente físico.","Amor petrarquista, porque el amor es una contradicción dolorosa: libertad que encarcela, enfermedad que no sana.","Amor cortés, porque el poeta sirve a la amada como a una reina que le da sentido a su vida."],
+c:1,exp:"El amor petrarquista es el 'dulce tormento': 'libertad encarcelada', 'enfermedad que crece si es curada' son paradojas que describen el sufrimiento placentero y la contradicción irresoluble del amor. No es platónico (que sería espiritual y sin sufrimiento) ni cortés (que sería de servicio y adoración más ordenada)."
+},
+{t:2,tag:"tag-sig",tl:"Siglo de Oro",
+frag:`"El Siglo de Oro se llama así porque es el momento cumbre de las letras españolas. <strong>1492</strong>: la conquista de América y la publicación de la Gramática castellana de Nebrija. <strong>1681</strong>: muerte de Pedro Calderón de la Barca."`,
+q:"¿Por qué se usa 1492 como fecha de inicio del Siglo de Oro?",
+opts:["Porque en ese año murió Garcilaso de la Vega, el primer gran poeta renacentista.","Porque 1492 marca el inicio de la expansión española y la publicación de la primera gramática castellana, hechos que impulsaron el auge cultural e lingüístico del período.","Porque en ese año se publicó el primer tomo del Quijote de Miguel de Cervantes."],
+c:1,exp:"1492 es un año de doble significación: la conquista de América abre el mundo a España y la Gramática de Nebrija fija y codifica el castellano como lengua literaria. Ambos hechos sientan las bases para el florecimiento cultural del Siglo de Oro. El Quijote se publicó en 1605."
+},
+
+// ══════════════════════ TEMA 3: DON QUIJOTE (29-40) ══════════════════════
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor."`,
+q:"La frase 'de cuyo nombre no quiero acordarme' es un rasgo metaficcional porque",
+opts:["indica que Cervantes olvidó el nombre del pueblo donde nació don Quijote.","introduce explícitamente a un narrador que tiene voluntad propia y toma decisiones sobre cómo contar la historia, rompiendo la ilusión de un narrador neutral.","es una forma de proteger la identidad real del protagonista, que existió históricamente."],
+c:1,exp:"La metaficción es cuando la obra llama la atención sobre su propia condición de ficción. Un narrador que 'no quiere acordarse' de algo es un narrador que interviene, que tiene voluntad. Esto rompe la convención de un narrador omnisciente neutro y muestra que la historia es construida, no descubierta."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"Y así, del poco dormir y del mucho leer, se le secó el celebro de manera que <strong>vino a perder el juicio</strong>. Llenósele la fantasía de todo aquello que leía en los libros, así de encantamentos como de pendencias, batallas, desafíos, heridas, requiebros, amores, tormentas y disparates imposibles: y asentósele de tal modo en la imaginación que <strong>era verdad toda aquella máquina de aquellas sonadas soñadas invenciones que leía</strong>."`,
+q:"La locura de don Quijote tiene una causa que el narrador describe con precisión. ¿Cuál es?",
+opts:["Una enfermedad hereditaria que siempre afectó a la familia Quijano.","El exceso de lectura de libros de caballerías, que sustituyó la realidad por la ficción en su mente.","Una herida en la cabeza que sufrió durante la primera aventura fuera de su pueblo."],
+c:1,exp:"El narrador es explícito: 'del poco dormir y del mucho leer, se le secó el celebro'. La causa de la locura de don Quijote es la sobredosis de ficción: tanto leyó que ya no distingue la realidad de los libros. Esto es la crítica de Cervantes a la lectura irreflexiva de la literatura de entretenimiento de su época."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"Cuatro días se le pasaron en imaginar qué nombre le pondría [al caballo], porque no era razón que caballo de caballero tan famoso estuviese sin nombre conocido. Al fin le vino a llamar <strong>Rocinante</strong>, nombre, a su parecer, alto, sonoro y significativo de lo que había sido antes que fuese de caballero andante."`,
+q:"El nombre 'Rocinante' es paródico porque",
+opts:["era el nombre tradicional de todos los caballos de caballeros andantes en los libros de caballerías.","combina 'rocín' (caballo flaco y de poco valor) con el sufijo '-ante' (que indica superioridad), burlándose del contraste entre la realidad del animal y la grandeza que don Quijote le atribuye.","es el nombre de un personaje heroico de la mitología griega que don Quijote admiraba."],
+c:1,exp:"La parodia está en el nombre mismo: 'rocín' es un caballo inferior, de trabajo, flaco; pero don Quijote le añade el sufijo de grandeza. El narrador incluso dice que el propio Quijote creyó que el nombre era 'alto, sonoro y significativo'. La parodia funciona porque el lector ve el contraste que el personaje no ve."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"[Don Quijote] se dio a entender que no le faltaba otra cosa sino buscar una dama de quien enamorarse, porque <strong>el caballero andante sin amores era árbol sin hojas y sin fruto, y cuerpo sin alma</strong>."`,
+q:"La necesidad de don Quijote de inventar una dama revela que",
+opts:["don Quijote tenía genuinos sentimientos románticos hacia Aldonza Lorenzo desde hace muchos años.","don Quijote construye todos los elementos de su identidad de caballero desde la lógica de los libros, no desde la realidad: si los libros dicen que los caballeros tienen dama, entonces él necesita una.","Aldonza Lorenzo era una princesa real que vivía cerca de La Mancha."],
+c:1,exp:"Don Quijote no elige a Dulcinea por amor real: la necesita como requisito del modelo literario que imita. Los libros dicen que los caballeros tienen dama, entonces él crea una. Es la construcción artificial de una identidad copiada de la ficción, no surgida de la vida."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"Fuese llegando a la venta que a él le parecía castillo, y vio a las dos destraídas mozas que allí estaban, que a él le parecieron <strong>dos hermosas doncellas o dos graciosas damas que delante de la puerta del castillo se estaban solazando</strong>."`,
+q:"El episodio de las prostitutas que don Quijote ve como 'hermosas doncellas' es un ejemplo de",
+opts:["un error de visión real de don Quijote causado por el sol y el cansancio del camino.","la tensión central de la obra entre el idealismo de don Quijote y la realidad concreta: él ve lo que quiere ver según el modelo caballeresco, no lo que realmente hay.","la hipocresía de la sociedad española del siglo XVII que ocultaba la realidad de la prostitución."],
+c:1,exp:"Este es el ejemplo más claro de la tensión idealismo-realidad: don Quijote llega a una venta vulgar, ve prostitutas, y su mente transforma todo: la venta en castillo, las mozas en doncellas. No es un error de visión: es la imposition de la ficción sobre la realidad, que es el mecanismo central de toda la novela."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"El ventero que era un poco socarrón y ya tenía algunos barruntos de la falta de juicio de su huésped, acabó de creerlo cuando acabó de oír semejantes razones, y <strong>por tener qué reír aquella noche determinó de seguirle el humor</strong>."`,
+q:"La decisión del ventero de 'seguirle el humor' a don Quijote tiene una función paródica porque",
+opts:["demuestra que el ventero es un hombre bondadoso que quiere ayudar a don Quijote a cumplir su sueño.","la solemne ceremonia de investidura caballeresca se realiza por las razones más prosaicas posibles: para que el ventero tenga algo de qué reírse esa noche.","el ventero era en realidad un caballero disfrazado que reconoció en don Quijote a un igual."],
+c:1,exp:"La parodia funciona por el contraste: la investidura caballeresca es un ritual sagrado en los libros de caballerías. Pero aquí se realiza porque el ventero quiere 'tener qué reír'. Lo solemne se vuelve cómico. La grandeza imaginada de don Quijote se sostiene sobre la burla del otro."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"[Don Quijote habla a las mozas en la venta en lenguaje arcaico de los libros de caballerías]<br>"—Non fuyan las vuestras mercedes ni teman desaguisado alguno, ca a la orden de caballería que profeso non toca ni atañe facerle a ninguno, cuanto más a tan altas doncellas como vuestras presencias demuestran."`,
+q:"El uso del lenguaje arcaico de don Quijote en esta escena es cómico porque",
+opts:["es un idioma que nadie en el siglo XVII entendía, ni siquiera Cervantes.","el lenguaje medieval que don Quijote usa (copiado de los libros) contrasta absurdamente con la realidad vulgar de su interlocutoras, que no entienden nada y solo quieren saber si quiere comer algo.","demuestra que don Quijote era un filólogo experto en lenguas antiguas."],
+c:1,exp:"El contraste entre el lenguaje elevado y caballeresco de don Quijote y la situación vulgar (una venta, dos prostitutas, comida de mala calidad) es la fuente del humor. Las mozas no entienden nada y responden preguntando si quiere comer. El choque entre el ideal literario y la realidad cotidiana es la comicidad central del Quijote."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"Preguntole [el ventero] si traía dineros; respondió don Quijote que no traía blanca, porque <strong>él nunca había leído en las historias de los caballeros andantes que ninguno los hubiese traído</strong>. A esto dijo el ventero que se engañaba: que puesto caso que en las historias no se escribía, no por eso se había de creer que no los trujeron."`,
+q:"Este intercambio entre el ventero y don Quijote ilustra que",
+opts:["el ventero era un ladrón que buscaba robarle el dinero a don Quijote.","la lógica de don Quijote está completamente gobernada por los textos literarios y no por la experiencia práctica del mundo real.","los caballeros andantes históricos efectivamente no llevaban dinero en sus viajes."],
+c:1,exp:"Don Quijote toma los libros como manual de vida: si en los libros los caballeros no llevan dinero, entonces él no lleva. El ventero, con más sentido práctico, señala que el libro no describe todo. Es el choque entre la mentalidad libresca de don Quijote y la lógica práctica del mundo real."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`Alonso Quijano lee libros de caballerías hasta perder el juicio. Se transforma en don Quijote. Llama 'Rocinante' a su rocín. Inventa a 'Dulcinea del Toboso' a partir de Aldonza Lorenzo. Confunde una venta con un castillo. Al final del libro, recupera el juicio, se llama de nuevo Alonso Quijano y muere.`,
+q:"¿Cuál es el significado más importante de la muerte de don Quijote y el retorno a Alonso Quijano?",
+opts:["Cervantes no quiso escribir una segunda parte y por eso mató al personaje rápidamente.","El retorno a Alonso Quijano y la muerte sugieren que vivir en la ilusión es insostenible y que, cuando la ilusión se destruye, lo que queda no puede sobrevivir: la identidad real del hombre era la locura.","Don Quijote muere porque sus aventuras lo dejaron físicamente agotado."],
+c:1,exp:"La muerte de don Quijote al recuperar el juicio es profundamente simbólica: cuando la ilusión se destruye, no queda nada. Alonso Quijano, sin la locura que lo animaba, solo puede morir. Cervantes sugiere que la identidad de un personaje puede ser inseparable de sus ilusiones, y que la 'cordura' puede ser más mortal que la locura."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"La parodia de los libros de caballerías. La tensión entre el idealismo y la realidad. Los rasgos metaficcionales de la obra. El concepto de quijotismo."`,
+q:"¿Qué se entiende por 'quijotismo'?",
+opts:["La tendencia a leer demasiados libros de aventuras hasta perder la vista.","La actitud de quienes, como don Quijote, siguen persiguiendo ideales nobles aunque la realidad los contradiga constantemente, moviéndose por valores como la justicia y la bondad.","El estilo literario de Cervantes caracterizado por el uso del lenguaje arcaico y la parodia."],
+c:1,exp:"Quijotismo designa la actitud del idealista que no renuncia a sus valores aunque la realidad se los derrumbe constantemente. Don Quijote sabe que lo golpean, que falla, pero sigue. Culturalmente, el quijotismo se ha convertido en símbolo de la persistencia de los ideales frente al pragmatismo."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"Sancho Panza, su escudero, representa el contrapunto de don Quijote: es campesino, práctico, gordo, montado en un asno; mientras don Quijote es flaco, idealista, montado en Rocinante."`,
+q:"La pareja don Quijote – Sancho Panza sirve en la obra para",
+opts:["mostrar que la clase social es el único factor que determina la personalidad de los personajes.","encarnar el debate permanente entre el idealismo (don Quijote) y el pragmatismo (Sancho), que es uno de los ejes temáticos centrales de la obra.","demostrar que los gordos son siempre más sabios que los flacos en la literatura medieval."],
+c:1,exp:"La pareja don Quijote-Sancho es uno de los grandes dúos de la literatura mundial precisamente por este contraste: el idealismo loco de don Quijote vs. el realismo simple de Sancho. Sin embargo, a lo largo de la novela, los dos se van 'contagiando': Sancho se vuelve más soñador y don Quijote más consciente. Este intercambio es uno de los recursos más ricos de la obra."
+},
+{t:3,tag:"tag-qui",tl:"Don Quijote",
+frag:`"Autores hay que dicen que la primera aventura que le avino fue la del Puerto Lápice, otros dicen que la de los molinos de viento; pero lo que yo he podido averiguar en este caso, y lo que he hallado escrito en los anales de la Mancha, es que él anduvo todo aquel día, y al anochecer, su rocín y él se hallaron cansados y muertos de hambre."`,
+q:"El narrador que cita a 'otros autores' y dice haber consultado 'anales de la Mancha' es un recurso metaficcional porque",
+opts:["Cervantes realmente investigó en archivos históricos para escribir el libro.","crea la ilusión de que el Quijote es una historia real compilada por un historiador, poniendo en duda la autoría y jugando con los límites entre ficción e historia.","el narrador confiesa que no sabe la verdad sobre don Quijote porque es un personaje menor."],
+c:1,exp:"Cervantes usa el recurso del 'manuscrito encontrado' y los 'autores que difieren': hace como si el Quijote fuera una historia verdadera documentada, no una ficción inventada. Esto es metaficción: la obra juega con su propia condición de texto literario y cuestiona la diferencia entre historia y ficción."
+}
+];
+
+const state={ok:0,fail:0,ans:new Set()};
+const tok={1:{ok:0,fail:0,tot:16},2:{ok:0,fail:0,tot:12},3:{ok:0,fail:0,tot:12}};
+
+function build(){
+  [1,2,3].forEach(t=>{
+    const qs=QS.filter(q=>q.t===t);
+    const qc=document.getElementById('q'+t);
+    const dc=document.getElementById('d'+t);
+    qs.forEach((q,li)=>{
+      const gi=QS.indexOf(q);
+      const dot=document.createElement('div');
+      dot.className='dot'; dot.id='dot-'+gi; dot.textContent=gi+1;
+      dc.appendChild(dot);
+      const card=document.createElement('div');
+      card.className='q-card';
+      card.innerHTML=`
+        <div class="q-meta">
+          <span class="q-num">Pregunta ${gi+1} de 40</span>
+          <span class="q-tag ${q.tag}">${q.tl}</span>
+        </div>
+        <div class="frag">${q.frag}</div>
+        <div class="q-txt">${q.q}</div>
+        <div class="opts" id="o${gi}">
+          ${q.opts.map((o,oi)=>`<button class="opt" onclick="pick(${gi},${oi})"><span class="opt-l">${['A)','B)','C)'][oi]}</span><span>${o}</span></button>`).join('')}
+        </div>
+        <div class="fb" id="f${gi}"></div>`;
+      qc.appendChild(card);
+    });
+  });
+}
+
+function pick(gi,oi){
+  const q=QS[gi];
+  const opts=document.querySelectorAll(`#o${gi} .opt`);
+  if(opts[0].classList.contains('disabled'))return;
+  opts.forEach(o=>o.classList.add('disabled'));
+  const fb=document.getElementById('f'+gi);
+  const dot=document.getElementById('dot-'+gi);
+  const id='q'+gi;
+  if(!state.ans.has(id)){
+    state.ans.add(id);
+    if(oi===q.c){
+      opts[oi].classList.add('correct');
+      fb.className='fb show ok';
+      fb.innerHTML=`<strong>✓ Correcto.</strong> ${q.exp}`;
+      state.ok++; tok[q.t].ok++;
+      dot.classList.add('ok'); dot.textContent='✓';
+    } else {
+      opts[oi].classList.add('wrong');
+      opts[q.c].classList.add('reveal');
+      fb.className='fb show fail';
+      fb.innerHTML=`<strong>✗ Incorrecto.</strong> La correcta era <strong>${['A)','B)','C)'][q.c]}</strong>. ${q.exp}`;
+      state.fail++; tok[q.t].fail++;
+      dot.classList.add('fail'); dot.textContent='✗';
+    }
+    upd();
+  }
+}
+
+function upd(){
+  const a=state.ans.size;
+  const pct=a>0?Math.round((state.ok/a)*100):0;
+  document.getElementById('s-ok').textContent=state.ok;
+  document.getElementById('s-fail').textContent=state.fail;
+  document.getElementById('s-ans').textContent=a;
+  document.getElementById('s-pct').textContent=a>0?pct+'%':'—';
+  document.getElementById('bar-txt').textContent=`${a} de 40 preguntas`;
+  document.getElementById('bar-fill').style.width=Math.round((a/40)*100)+'%';
+  document.getElementById('chip').textContent=`${state.ok}/40`;
+  const n=Math.round((state.ok/40)*100);
+  document.getElementById('rs').textContent=state.ok+'/40';
+  document.getElementById('rf').textContent=`(${pct}% de aciertos)`;
+  document.getElementById('rn').textContent=a>0?`Nota estimada: ${n}`:'';
+  const msgs=['Excelente. Dominas los tres temas. Lista para el examen.','Muy bien. Repasa los fragmentos donde te equivocaste.','Bien, pero hay temas que necesitan más repaso.','Necesitas estudiar más. Vuelve a los materiales de estudio.'];
+  const cols=['#145A32','#185FA5','#784212','#7B241C'];
+  let mi=3; if(n>=90)mi=0; else if(n>=75)mi=1; else if(n>=60)mi=2;
+  document.getElementById('rm').textContent=a>0?msgs[mi]:'Completa las secciones para ver tu resultado.';
+  document.getElementById('rs').style.color=a>0?cols[mi]:'#1c3d1c';
+  [1,2,3].forEach(t=>{
+    const el=document.getElementById('br'+t);
+    const tot2=tok[t].ok+tok[t].fail;
+    if(tot2===0){el.textContent='Pendiente';el.style.color='#aaa';return;}
+    const p=Math.round((tok[t].ok/tok[t].tot)*100);
+    el.textContent=`${tok[t].ok}/${tok[t].tot} (${p}%)`;
+    el.style.color=p>=70?'#145A32':'#C0392B';
+  });
+}
+
+function show(id,tab){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  tab.classList.add('active');
+}
+
+build(); upd();
+</script>
+</body>
+</html>
